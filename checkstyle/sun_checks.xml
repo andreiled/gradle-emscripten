@@ -49,16 +49,7 @@
         <property name="fileNamePattern" value="module\-info\.java$"/>
     </module>
 
-    <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
-    <module name="SuppressionFilter">
-        <property name="file" value="${org.checkstyle.sun.suppressionfilter.config}"
-                  default="checkstyle-suppressions.xml" />
-        <property name="optional" value="true"/>
-    </module>
-
-    <!-- Checks that a package-info.java file exists for each package.     -->
-    <!-- See https://checkstyle.org/config_javadoc.html#JavadocPackage -->
-    <module name="JavadocPackage"/>
+    <module name="SuppressWarningsFilter"/>
 
     <!-- Checks whether files end with a new line.                        -->
     <!-- See https://checkstyle.org/config_misc.html#NewlineAtEndOfFile -->
@@ -73,6 +64,7 @@
     <module name="FileLength"/>
     <module name="LineLength">
       <property name="fileExtensions" value="java"/>
+      <property name="max" value="120"/>
     </module>
 
     <!-- Checks for whitespace                               -->
@@ -173,7 +165,6 @@
 
         <!-- Checks for class design                         -->
         <!-- See https://checkstyle.org/config_design.html -->
-        <module name="DesignForExtension"/>
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
@@ -182,7 +173,6 @@
         <!-- Miscellaneous other checks.                   -->
         <!-- See https://checkstyle.org/config_misc.html -->
         <module name="ArrayTypeStyle"/>
-        <module name="FinalParameters"/>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
 
@@ -193,6 +183,7 @@
             <property name="optional" value="true"/>
         </module>
 
+        <module name="SuppressWarningsHolder"/>
     </module>
 
 </module>
