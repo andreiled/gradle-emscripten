@@ -1,0 +1,29 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'checkstyle'
+    id 'maven-publish'
+}
+
+defaultTasks 'clean', 'build'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = 'com.github.andreiled.emcc-compiler'
+            implementationClass = 'com.github.andreiled.gradle.nativeplatform.toolchain.plugins.EmccCompilerPlugin'
+        }
+    }
+}
+
+checkstyle.with {
+    configFile = project.file('checkstyle/sun_checks.xml')
+}
