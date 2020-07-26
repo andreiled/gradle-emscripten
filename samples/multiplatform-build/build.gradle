@@ -1,0 +1,58 @@
+plugins {
+    id 'cpp-library'
+    id 'com.github.andreiled.emcc-compiler' version '0.1.0-SNAPSHOT'
+}
+
+model {
+    platforms {
+        Node_12 {
+            architecture 'Node_12'
+        }
+        Host_x86 {
+            architecture 'x86'
+        }
+        Host_x86_64 {
+            architecture 'x86_64'
+        }
+    }
+
+    toolChains {
+        gcc(Gcc) {
+            target 'host:x86'
+            target 'host:x86_64'
+        }
+        emcc(com.github.andreiled.gradle.nativeplatform.toolchain.Emcc) {
+            path project.property('emscripten.sdk.home')
+            target('host:Node_12') {
+                [ cCompiler, cppCompiler, linker ]*.withArguments { args ->
+                    args << '-s' << 'WASM=0'
+                }
+            }
+        }
+    }
+}
+
+library {
+    linkage = [Linkage.STATIC, Linkage.SHARED]
+    targetMachines = [
+        project.machines.linux.x86_64,
+        machines.windows.x86, machines.windows.x86_64,
+        machines.macOS.x86_64,
+        project.machines.windows.architecture('Node_12'),
+        project.machines.linux.architecture('Node_12'),
+        project.machines.macOS.architecture('Node_12'),
+    ]
+}
+
+model {
+    components {
+        main(NativeLibrarySpec) {
+            targetPlatform 'Host_x86'
+            targetPlatform 'Host_x86_64'
+        }
+        npm(NativeLibrarySpec) {
+            targetPlatform 'Node_12'
+            // TODO: additional Emscripten specific header sources
+        }
+    }
+}
